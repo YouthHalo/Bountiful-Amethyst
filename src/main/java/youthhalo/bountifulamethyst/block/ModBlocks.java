@@ -2,6 +2,7 @@ package youthhalo.bountifulamethyst.block;
 
 import java.util.function.Function;
 
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -13,6 +14,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import youthhalo.bountifulamethyst.BountifulAmethyst;
+import youthhalo.bountifulamethyst.item.ModItems;
 
 public class ModBlocks {
 
@@ -20,16 +22,17 @@ public class ModBlocks {
 	public static final Block TEST_BLOCK = register("test_block", Block::new,
 			AbstractBlock.Settings.create().strength(4.0f).sounds(BlockSoundGroup.STONE), true);
 
-	public static final Block TEST_BLOCK_DETAILED = register(
-			"test_block_detailed",
-			Block::new,
-			AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS),
-			true
-			);
+	public static final Block TEST_BLOCK_DETAILED = register("test_block_detailed", Block::new,
+			AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS),true);
 
 	public static void initialize() {
 		BountifulAmethyst.LOGGER.info("Registering Mod Blocks for " + BountifulAmethyst.MOD_ID);
-		// Blocks are now added to the custom item group in ModItems.initialize()
+
+		// Add blocks to the custom item group
+		ItemGroupEvents.modifyEntriesEvent(ModItems.BOUNTIFUL_AMETHYST_GROUP_KEY).register(entries -> {
+			entries.add(TEST_BLOCK);
+			entries.add(TEST_BLOCK_DETAILED);
+		});
 	}
 
 	private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory,

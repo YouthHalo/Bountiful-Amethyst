@@ -14,12 +14,11 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import youthhalo.bountifulamethyst.BountifulAmethyst;
-import youthhalo.bountifulamethyst.block.ModBlocks;
 
 public class ModItems{
 
 	public static final Item TEST_ITEM = register("test_item", Item::new, new Item.Settings());
-	public static final Item AMETHYST_STAFF = register("amethyst_staff", Item::new, new Item.Settings());
+	public static final Item AMETHYST_STAFF = register("amethyst_staff", AmethystStaffItem::new, new Item.Settings());
 
 	// Custom Item Group
 	public static final RegistryKey<ItemGroup> BOUNTIFUL_AMETHYST_GROUP_KEY = RegistryKey.of(
@@ -28,7 +27,7 @@ public class ModItems{
 	);
 	
 	public static final ItemGroup BOUNTIFUL_AMETHYST_GROUP = FabricItemGroup.builder()
-		.icon(() -> new ItemStack(AMETHYST_STAFF))
+		.icon(() -> new ItemStack(net.minecraft.item.Items.AMETHYST_CLUSTER))
 		.displayName(Text.translatable("itemGroup.bountiful-amethyst.bountiful_amethyst_group"))
 		.build();
 
@@ -43,10 +42,6 @@ public class ModItems{
 			// Add items
 			entries.add(TEST_ITEM);
 			entries.add(AMETHYST_STAFF);
-			
-			// Add blocks
-			entries.add(ModBlocks.TEST_BLOCK);
-			entries.add(ModBlocks.TEST_BLOCK_DETAILED);
 		});
 	}
 

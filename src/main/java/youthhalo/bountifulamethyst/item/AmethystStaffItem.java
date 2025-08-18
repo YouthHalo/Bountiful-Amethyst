@@ -75,7 +75,7 @@ public class AmethystStaffItem extends Item {
 
 		world.spawnEntity(fireball);
 		// Set cooldown for 2 seconds (40 ticks)
-		user.getItemCooldownManager().set(itemStack, 00);
+		user.getItemCooldownManager().set(itemStack, 40);
 
 		// Handle durability damage manually to ensure item can break
 		if (!user.getAbilities().creativeMode) {

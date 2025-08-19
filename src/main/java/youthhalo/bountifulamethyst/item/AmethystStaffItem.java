@@ -36,8 +36,8 @@ public class AmethystStaffItem extends Item {
 		// Get the player's look direction
 		Vec3d lookDirection = user.getRotationVec(1.0F);
 
-		// Calculate spawn position (0.5 blocks in front of player)
-		Vec3d spawnPos = user.getPos().add(lookDirection.multiply(0.5));
+		// Calculate spawn position (0.1 blocks in front of player)
+		Vec3d spawnPos = user.getPos().add(lookDirection.multiply(0.1));
 
 		// Create and spawn the dragon fireball
 		DragonFireballEntity fireball = new DragonFireballEntity(world, user, lookDirection) {
@@ -52,22 +52,67 @@ public class AmethystStaffItem extends Item {
 			
 			@Override
 			protected void onCollision(net.minecraft.util.hit.HitResult hitResult) {
-				super.onCollision(hitResult);
+				// Don't call super.onCollision() to prevent vanilla area effect cloud
 				if (!this.getWorld().isClient) {
 					this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), 0.5F, false, World.ExplosionSourceType.MOB);
 					
-					// Additional direct damage to nearby entities
+					// Additional direct damage to nearby entities from explosion
 					if (this.getWorld() instanceof net.minecraft.server.world.ServerWorld serverWorld) {
-						this.getWorld().getEntitiesByClass(net.minecraft.entity.LivingEntity.class,
-							this.getBoundingBox().expand(3.0), // 4 block radius
-							entity -> true) // Damage ALL entities including the player
+						this.getWorld().getEntitiesByClass(net.minecraft.entity.Entity.class,
+							this.getBoundingBox().expand(4.0), // 4 block radius for explosion damage
+							entity -> entity instanceof net.minecraft.entity.LivingEntity) // Target all living entities
 							.forEach(entity -> {
 								// Deal different damage based on whether it's the owner
 								float damage = entity == this.getOwner() ? 12.0F : 15.0F;
-								entity.damage(serverWorld, this.getDamageSources().explosion(this, this.getOwner()), damage);
+								((net.minecraft.entity.LivingEntity) entity).damage(serverWorld, 
+									serverWorld.getDamageSources().explosion(this, this.getOwner()), damage);
 							});
 					}
+					
+					// Create custom area effect cloud that affects ALL entities
+					// Find the ground level by checking for solid blocks below
+					double groundY = this.getY();
+					for (int i = 0; i < 20; i++) { // Check up to 20 blocks down
+						net.minecraft.util.math.BlockPos checkPos = new net.minecraft.util.math.BlockPos((int)this.getX(), (int)(groundY - i), (int)this.getZ());
+						if (this.getWorld().getBlockState(checkPos).isSolidBlock(this.getWorld(), checkPos)) {
+							groundY = checkPos.getY() + 1; // Position 1 block above the solid ground
+							break;
+						}
+					}
+					
+					net.minecraft.entity.AreaEffectCloudEntity areaEffectCloud = new net.minecraft.entity.AreaEffectCloudEntity(this.getWorld(), this.getX(), groundY, this.getZ()) {
+						@Override
+						public void tick() {
+							super.tick();
+							if (!this.getWorld().isClient && this.isAlive()) {
+								// Custom damage logic for all entities in range
+								java.util.List<net.minecraft.entity.Entity> entities = this.getWorld().getOtherEntities(this, this.getBoundingBox());
+								for (net.minecraft.entity.Entity entity : entities) {
+									if (entity instanceof net.minecraft.entity.LivingEntity livingEntity) {
+										// Deal damage to all living entities including undead
+										float damage = entity == this.getOwner() ? 2.0F : 3.0F;
+										if (this.getWorld() instanceof net.minecraft.server.world.ServerWorld serverWorld) {
+											livingEntity.damage(serverWorld, serverWorld.getDamageSources().magic(), damage);
+										}
+									}
+								}
+							}
+						}
+					};
+					
+					// Set owner only if it's a LivingEntity
+					if (this.getOwner() instanceof net.minecraft.entity.LivingEntity livingOwner) {
+						areaEffectCloud.setOwner(livingOwner);
+					}
+					areaEffectCloud.setParticleType(net.minecraft.particle.ParticleTypes.DRAGON_BREATH);
+					areaEffectCloud.setRadius(3.0F);
+					areaEffectCloud.setDuration(600); // 30 seconds
+					areaEffectCloud.setRadiusOnUse(-0.5F); // Shrinks when dealing damage
+					areaEffectCloud.setWaitTime(10); // Delay before starting to shrink
+					
+					this.getWorld().spawnEntity(areaEffectCloud);
 				}
+				this.discard();
 			}
 		};
 		fireball.setPosition(spawnPos.x, spawnPos.y + user.getStandingEyeHeight(), spawnPos.z);

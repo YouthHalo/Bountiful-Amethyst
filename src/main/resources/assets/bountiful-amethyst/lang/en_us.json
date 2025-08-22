@@ -1,10 +1,7 @@
 {
-	"item.bountiful-amethyst.test_item": "Test Item",
 	"item.bountiful-amethyst.amethyst_staff": "Amethyst Staff",
 	"item.bountiful-amethyst.amethyst_tome": "Amethyst Tome",
-	"block.bountiful-amethyst.test_block": "Test Block",
-	"item.bountiful-amethyst.test_block": "Test Block",
-	"item.bountiful-amethyst.test_block_detailed": "Test Block Detailed",
-	"block.bountiful-amethyst.test_block_detailed": "Test Block Detailed",
+	"block.bountiful-amethyst.enhanced_enchanting_table": "Enhanced Enchanting Table",
+	"item.bountiful-amethyst.enhanced_enchanting_table": "Enhanced Enchanting Table",
 	"itemGroup.bountiful-amethyst.bountiful_amethyst_group": "Bountiful Amethyst"
 }

@@ -17,13 +17,8 @@ import youthhalo.bountifulamethyst.BountifulAmethyst;
 
 public class ModItems {
 
-
-	public static final Item TEST_ITEM = register("test_item", Item::new, new Item.Settings());
-
 	public static final Item AMETHYST_STAFF = register("amethyst_staff", AmethystStaffItem::new, new Item.Settings());
 	public static final Item AMETHYST_TOME = register("amethyst_tome", AmethystTomeItem::new, new Item.Settings());
-
-
 
 	// Custom Item Group
 	public static final RegistryKey<ItemGroup> BOUNTIFUL_AMETHYST_GROUP_KEY = RegistryKey.of(
@@ -44,7 +39,6 @@ public class ModItems {
 		// Add items to the custom item group
 		ItemGroupEvents.modifyEntriesEvent(BOUNTIFUL_AMETHYST_GROUP_KEY).register(entries -> {
 			// Add items
-			entries.add(TEST_ITEM);
 			entries.add(AMETHYST_STAFF);
 			entries.add(AMETHYST_TOME);
 		});

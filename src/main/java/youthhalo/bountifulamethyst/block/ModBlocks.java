@@ -5,6 +5,8 @@ import java.util.function.Function;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -13,25 +15,41 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 import youthhalo.bountifulamethyst.BountifulAmethyst;
 import youthhalo.bountifulamethyst.item.ModItems;
 
 public class ModBlocks {
 
-	// Test block
-	public static final Block TEST_BLOCK = register("test_block", Block::new,
-			AbstractBlock.Settings.create().strength(4.0f).sounds(BlockSoundGroup.STONE), true);
-
-	public static final Block TEST_BLOCK_DETAILED = register("test_block_detailed", Block::new,
-			AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS),true);
+	public static final Block ENHANCED_ENCHANTING_TABLE = register("enhanced_enchanting_table",
+			settings -> new Block(settings) {
+				@Override
+				public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+					return VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.75, 1.0);
+				}
+				
+				@Override
+				public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+					return VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.75, 1.0);
+				}
+			},
+			AbstractBlock.Settings.create()
+				.sounds(BlockSoundGroup.STONE)
+				.strength(5.0F, 1200.0F) // Same hardness and blast resistance as enchanting table
+				.instrument(net.minecraft.block.enums.NoteBlockInstrument.BASEDRUM)
+				.luminance(state -> 7), // Same light level as enchanting table
+			true);
 
 	public static void initialize() {
 		BountifulAmethyst.LOGGER.info("Registering Mod Blocks for " + BountifulAmethyst.MOD_ID);
 
 		// Add blocks to the custom item group
 		ItemGroupEvents.modifyEntriesEvent(ModItems.BOUNTIFUL_AMETHYST_GROUP_KEY).register(entries -> {
-			entries.add(TEST_BLOCK);
-			entries.add(TEST_BLOCK_DETAILED);
+			entries.add(ENHANCED_ENCHANTING_TABLE);
+
 		});
 	}
 

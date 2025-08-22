@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class AmethystTomeItem extends Item {
 
 	public AmethystTomeItem(Settings settings) {
-		super(settings.maxDamage(64).rarity(net.minecraft.util.Rarity.RARE));
+		super(settings.maxDamage(64).rarity(net.minecraft.util.Rarity.UNCOMMON));
 	}
 
 	@Override
@@ -32,36 +32,73 @@ public class AmethystTomeItem extends Item {
 			return ActionResult.SUCCESS;
 		}
 
-		// Server-side logic: rapidly summon crystal shards
-		Vec3d playerPos = user.getPos();
+		// Server-side logic: sequential crystal shard burst
 		Vec3d lookDirection = user.getRotationVec(1.0F);
 
-		// Summon 5 crystal shards in rapid succession
-		for (int i = 0; i < 5; i++) {
-			// Create slight variations in direction for spread
-			double spread = 0.3;
-			Vec3d direction = new Vec3d(
-					lookDirection.x + (world.random.nextDouble() - 0.5) * spread,
-					lookDirection.y + (world.random.nextDouble() - 0.5) * spread * 0.5,
-					lookDirection.z + (world.random.nextDouble() - 0.5) * spread).normalize();
+		// Fire 5 crystal shards one at a time with delays
+		if (world instanceof net.minecraft.server.world.ServerWorld serverWorld) {
+			for (int i = 0; i < 5; i++) {
+				final int shardIndex = i;
+				final Vec3d capturedLookDirection = lookDirection;
 
-			// Create crystal shard projectile
-			CrystalShardEntity shard = new CrystalShardEntity(world, user);
+				// Schedule each shard to fire with increasing delay using a simple
+				// counter-based approach
+				new Thread(() -> {
+					try {
+						Thread.sleep(shardIndex * 50); // 0.1 second delay between each shot
 
-			// Position slightly in front of player with small offset
-			Vec3d spawnPos = playerPos.add(
-					direction.x * 1.5 + (world.random.nextDouble() - 0.5) * 0.5,
-					user.getStandingEyeHeight() + (world.random.nextDouble() - 0.5) * 0.3,
-					direction.z * 1.5 + (world.random.nextDouble() - 0.5) * 0.5);
+						// Execute on server thread
+						serverWorld.getServer().execute(() -> {
+							// Calculate spread based on shot number (0-indexed)
+							// Shot 0: 0 spread (perfect accuracy)
+							// Shot 1: 25% of max spread
+							// Shot 2: 50% of max spread
+							// Shot 3: 75% of max spread (4th shot)
+							// Shot 4: 100% of max spread (5th shot)
+							double maxSpread = 0.33;
+							double spread = (shardIndex / 4.0) * maxSpread; // Gradually increase from 0 to maxSpread
 
-			shard.setPosition(spawnPos.x, spawnPos.y, spawnPos.z);
-			shard.setVelocity(direction.multiply(1.5 + world.random.nextDouble() * 0.5));
+							Vec3d direction;
+							if (shardIndex == 0) {
+								// First shot: perfect accuracy, no spread
+								direction = capturedLookDirection;
+							} else {
+								// Subsequent shots: increasing spread
+								direction = new Vec3d(
+										capturedLookDirection.x + (world.random.nextDouble() - 0.5) * spread,
+										capturedLookDirection.y + (world.random.nextDouble() - 0.5) * spread * 0.5,
+										capturedLookDirection.z + (world.random.nextDouble() - 0.5) * spread).normalize();
+							}
 
-			world.spawnEntity(shard);
+							// Create crystal shard projectile
+							CrystalShardEntity shard = new CrystalShardEntity(world, user);
+
+							// Position slightly in front of player
+							Vec3d spawnPos = user.getPos().add(
+									direction.x * 1.0,
+									user.getStandingEyeHeight(),
+									direction.z * 1.0);
+
+							shard.setPosition(spawnPos.x, spawnPos.y, spawnPos.z);
+							shard.setVelocity(direction.multiply(2.0)); // Consistent speed for better aim
+
+							world.spawnEntity(shard);
+
+							// Play firing sound for each shard
+							world.playSound(null, user.getX(), user.getY(), user.getZ(),
+									net.minecraft.sound.SoundEvents.BLOCK_AMETHYST_CLUSTER_HIT,
+									net.minecraft.sound.SoundCategory.PLAYERS,
+									0.3F, 1.0F + shardIndex * 0.1F); // Slightly different pitch for each
+						});
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}
+				}).start();
+			}
 		}
 
 		// Set cooldown for 1 second (20 ticks)
-		user.getItemCooldownManager().set(itemStack, 20);
+		user.getItemCooldownManager().set(itemStack, 40);
 
 		// Handle durability damage manually fml
 		if (!user.getAbilities().creativeMode) {
@@ -106,12 +143,11 @@ public class AmethystTomeItem extends Item {
 			if (!this.getWorld().isClient) {
 				// Deal damage to entities hit
 				if (hitResult instanceof net.minecraft.util.hit.EntityHitResult entityHit) {
-					if (entityHit.getEntity() instanceof net.minecraft.entity.LivingEntity livingEntity &&
-							entityHit.getEntity() != this.getOwner()) {
+					if (entityHit.getEntity() instanceof net.minecraft.entity.LivingEntity livingEntity) {
 
 						if (this.getWorld() instanceof net.minecraft.server.world.ServerWorld serverWorld) {
 							livingEntity.damage(serverWorld,
-									serverWorld.getDamageSources().thrown(this, this.getOwner()), 6.0F);
+									serverWorld.getDamageSources().thrown(this, this.getOwner()), 8.0F);
 						}
 					}
 				}

@@ -11,15 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "bountiful-amethyst:enhanced_enchanting_table",
-          "conditions": [
-            {
-              "condition": "minecraft:match_tool",
-              "predicate": {
-                "tag": "minecraft:pickaxes"
-              }
-            }
-          ]
+          "name": "bountiful-amethyst:enhanced_enchanting_table"
         }
       ],
       "rolls": 1.0

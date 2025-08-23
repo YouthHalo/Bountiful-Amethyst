@@ -2,6 +2,7 @@
 	"format_version": "1.21.6",
 	"credit": "Made by YouthHalo, with Blockbench",
 	"parent": "block/block",
+	"render_type": "cutout",
 	"textures": {
 		"4": "bountiful-amethyst:block/enhanced_enchanting_table_shard",
 		"particle": "bountiful-amethyst:block/enhanced_enchanting_table_bottom",
@@ -28,8 +29,8 @@
 			"shade": false,
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 18, 8], "rescale": true},
 			"faces": {
-				"north": {"uv": [0, 0, 16, 16], "texture": "#4"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#4"}
+				"north": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": -1},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": -1}
 			}
 		},
 		{
@@ -38,8 +39,8 @@
 			"shade": false,
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 18, 8], "rescale": true},
 			"faces": {
-				"east": {"uv": [0, 0, 16, 16], "texture": "#4"},
-				"west": {"uv": [0, 0, 16, 16], "texture": "#4"}
+				"east": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": -1},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": -1}
 			}
 		}
 	],

@@ -1,6 +1,3 @@
 {
-	"parent": "minecraft:item/generated",
-	"textures": {
-		"layer0": "bountiful-amethyst:block/enhanced_enchanting_table_top"
-	}
+  "parent": "bountiful-amethyst:block/enhanced_enchanting_table"
 }

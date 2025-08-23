@@ -36,12 +36,7 @@ public class ModBlocks {
 					return VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.75, 1.0);
 				}
 			},
-			AbstractBlock.Settings.create()
-				.sounds(BlockSoundGroup.STONE)
-				.strength(5.0F, 1200.0F) // Same hardness and blast resistance as enchanting table
-				.instrument(net.minecraft.block.enums.NoteBlockInstrument.BASEDRUM)
-				.luminance(state -> 7), // Same light level as enchanting table
-			true);
+			AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE), true);
 
 	public static void initialize() {
 		BountifulAmethyst.LOGGER.info("Registering Mod Blocks for " + BountifulAmethyst.MOD_ID);

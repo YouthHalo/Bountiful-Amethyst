@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "bountifulamethyst:block/enhanced_enchanting_table"
+    "model": "bountiful-amethyst:block/enhanced_enchanting_table"
   }
 }

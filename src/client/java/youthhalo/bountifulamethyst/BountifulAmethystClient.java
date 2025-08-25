@@ -11,7 +11,6 @@ import youthhalo.bountifulamethyst.block.ModBlocks;
 public class BountifulAmethystClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// To make some parts of the block transparent (like glass, saplings and doors):
-		System.out.println("HELLO");
 		BlockRenderLayerMap.putBlock(ModBlocks.ENHANCED_ENCHANTING_TABLE, BlockRenderLayer.CUTOUT);
 
 		// To make some parts of the block translucent (like ice, stained glass and

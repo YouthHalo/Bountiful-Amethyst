@@ -5,8 +5,6 @@ import java.util.function.Function;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -15,27 +13,14 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
 import youthhalo.bountifulamethyst.BountifulAmethyst;
+import youthhalo.bountifulamethyst.item.DisabledBlockItem;
 import youthhalo.bountifulamethyst.item.ModItems;
 
 public class ModBlocks {
 
 	public static final Block ENHANCED_ENCHANTING_TABLE = register("enhanced_enchanting_table",
-			settings -> new Block(settings) {
-				@Override
-				public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-					return VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.75, 1.0);
-				}
-				
-				@Override
-				public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-					return VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.75, 1.0);
-				}
-			},
+			settings -> new EnhancedEnchantingTableBlock(settings),
 			AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE), true);
 
 	public static void initialize() {
@@ -63,7 +48,13 @@ public class ModBlocks {
 			// can be the same.
 			RegistryKey<Item> itemKey = keyOfItem(name);
 
-			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey));
+			// Use DisabledBlockItem for Enhanced Enchanting Table to prevent usage in inventory
+			BlockItem blockItem;
+			if (name.equals("enhanced_enchanting_table")) {
+				blockItem = new DisabledBlockItem(block, new Item.Settings().registryKey(itemKey));
+			} else {
+				blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey));
+			}
 			Registry.register(Registries.ITEM, itemKey, blockItem);
 		}
 

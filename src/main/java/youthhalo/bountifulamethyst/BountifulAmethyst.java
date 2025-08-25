@@ -22,6 +22,8 @@ public class BountifulAmethyst implements ModInitializer {
 		// Proceed with mild caution.
 		ModItems.initialize();
 		ModBlocks.initialize();
+		youthhalo.bountifulamethyst.block.entity.ModBlockEntities.initialize();
+		youthhalo.bountifulamethyst.screen.ModScreenHandlers.initialize();
 
 		LOGGER.info("Successfully loaded Bountiful Amethyst!");
 	}

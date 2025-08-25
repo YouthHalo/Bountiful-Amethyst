@@ -14,14 +14,17 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import youthhalo.bountifulamethyst.BountifulAmethyst;
-import youthhalo.bountifulamethyst.item.DisabledBlockItem;
 import youthhalo.bountifulamethyst.item.ModItems;
 
 public class ModBlocks {
 
 	public static final Block ENHANCED_ENCHANTING_TABLE = register("enhanced_enchanting_table",
 			settings -> new EnhancedEnchantingTableBlock(settings),
-			AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE), true);
+			AbstractBlock.Settings.create()
+				.strength(7.5f, 1200.0f) // Increased hardness by 50% (from 5.0 to 7.5), same resistance
+				.sounds(BlockSoundGroup.STONE) // mining sound
+				.requiresTool(), // Requires a tool to break efficiently
+			true);
 
 	public static void initialize() {
 		BountifulAmethyst.LOGGER.info("Registering Mod Blocks for " + BountifulAmethyst.MOD_ID);
@@ -48,13 +51,8 @@ public class ModBlocks {
 			// can be the same.
 			RegistryKey<Item> itemKey = keyOfItem(name);
 
-			// Use DisabledBlockItem for Enhanced Enchanting Table to prevent usage in inventory
-			BlockItem blockItem;
-			if (name.equals("enhanced_enchanting_table")) {
-				blockItem = new DisabledBlockItem(block, new Item.Settings().registryKey(itemKey));
-			} else {
-				blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey));
-			}
+			// Register as a regular BlockItem
+			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey));
 			Registry.register(Registries.ITEM, itemKey, blockItem);
 		}
 

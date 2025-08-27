@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "bountiful-amethyst:item/crystal_shard_projectile"
-  }
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "bountiful-amethyst:item/crystal_shard_projectile"
+	}
 }

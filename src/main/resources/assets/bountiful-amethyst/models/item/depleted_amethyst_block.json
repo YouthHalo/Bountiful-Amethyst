@@ -1,6 +1,6 @@
-{
+﻿{
   "model": {
-    "type": "model",
+    "type": "minecraft:model",
     "model": "bountiful-amethyst:block/depleted_amethyst_block"
   }
 }

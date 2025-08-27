@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "bountiful-amethyst:item/amethyst_staff"
-  }
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "bountiful-amethyst:item/amethyst_staff"
+	}
 }

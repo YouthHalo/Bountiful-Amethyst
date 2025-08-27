@@ -29,10 +29,10 @@ public class ModBlocks {
 	public static final Block DEPLETED_AMETHYST_BLOCK = register("depleted_amethyst_block",
 			settings -> new Block(settings),
 			AbstractBlock.Settings.create()
-					.strength(3.0f, 9.0f) // Hardness and resistance similar to iron ore
+					.strength(1.5f, 1.5f) // Same as regular amethyst block
 					.sounds(BlockSoundGroup.STONE)
 					.requiresTool(), // mining sound
-			true); 
+			true);
 
 	public static void initialize() {
 		BountifulAmethyst.LOGGER.info("Registering Mod Blocks for " + BountifulAmethyst.MOD_ID);

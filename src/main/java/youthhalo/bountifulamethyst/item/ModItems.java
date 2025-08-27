@@ -19,6 +19,7 @@ public class ModItems {
 
 	public static final Item AMETHYST_STAFF = register("amethyst_staff", AmethystStaffItem::new, new Item.Settings());
 	public static final Item AMETHYST_TOME = register("amethyst_tome", AmethystTomeItem::new, new Item.Settings());
+	public static final Item DEPLETED_AMETHYST_SHARD = register("depleted_amethyst_shard", Item::new, new Item.Settings());
 
 	// Custom Item Group
 	public static final RegistryKey<ItemGroup> BOUNTIFUL_AMETHYST_GROUP_KEY = RegistryKey.of(
@@ -41,6 +42,7 @@ public class ModItems {
 			// Add items
 			entries.add(AMETHYST_STAFF);
 			entries.add(AMETHYST_TOME);
+			entries.add(DEPLETED_AMETHYST_SHARD);
 		});
 	}
 

@@ -21,10 +21,18 @@ public class ModBlocks {
 	public static final Block ENHANCED_ENCHANTING_TABLE = register("enhanced_enchanting_table",
 			settings -> new EnhancedEnchantingTableBlock(settings),
 			AbstractBlock.Settings.create()
-				.strength(7.5f, 1200.0f) // Increased hardness by 50% (from 5.0 to 7.5), same resistance
-				.sounds(BlockSoundGroup.STONE) // mining sound
-				.requiresTool(), // Requires a tool to break efficiently
+					.strength(7.5f, 1200.0f) // Increased hardness by 50% (from 5.0 to 7.5), same resistance
+					.sounds(BlockSoundGroup.STONE) // mining sound
+					.requiresTool(), // Requires a tool to break efficiently
 			true);
+
+	public static final Block DEPLETED_AMETHYST_BLOCK = register("depleted_amethyst_block",
+			settings -> new Block(settings),
+			AbstractBlock.Settings.create()
+					.strength(3.0f, 9.0f) // Hardness and resistance similar to iron ore
+					.sounds(BlockSoundGroup.STONE)
+					.requiresTool(), // mining sound
+			true); 
 
 	public static void initialize() {
 		BountifulAmethyst.LOGGER.info("Registering Mod Blocks for " + BountifulAmethyst.MOD_ID);
@@ -32,6 +40,7 @@ public class ModBlocks {
 		// Add blocks to the custom item group
 		ItemGroupEvents.modifyEntriesEvent(ModItems.BOUNTIFUL_AMETHYST_GROUP_KEY).register(entries -> {
 			entries.add(ENHANCED_ENCHANTING_TABLE);
+			entries.add(DEPLETED_AMETHYST_BLOCK);
 
 		});
 	}

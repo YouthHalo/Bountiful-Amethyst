@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:smelting",
+	"category": "bountifulamethyst",
+	"cookingtime": 200,
+	"experience": 200.0,
+	"group": "depleted_amethyst_block",
+	"ingredient": "minecraft:amethyst_block",
+	"result": {
+		"id": "bountiful-amethyst:depleted_amethyst_block"
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:blasting",
+	"category": "bountifulamethyst",
+	"cookingtime": 100,
+	"experience": 20.0,
+	"group": "depleted_amethyst_shard",
+	"ingredient": "minecraft:amethyst_shard",
+	"result": {
+		"id": "bountiful-amethyst:depleted_amethyst_shard"
+	}
+}

@@ -3,13 +3,13 @@
 	"id": "bountiful-amethyst",
 	"version": "${version}",
 	"name": "Bountiful Amethyst",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A mod designed to give amethyst more uses in a vanilla-friendly manner!",
 	"authors": [
-		"Me!"
+		"YouthHalo"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/YouthHalo/Bountiful-Amethyst"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/bountiful-amethyst/icon.png",

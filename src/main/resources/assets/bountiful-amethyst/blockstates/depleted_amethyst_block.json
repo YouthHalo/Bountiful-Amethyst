@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bountiful-amethyst:block/depleted_amethyst_block"
+    }
+  }
+}

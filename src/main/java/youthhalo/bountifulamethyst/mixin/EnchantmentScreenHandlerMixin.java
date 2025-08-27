@@ -14,12 +14,12 @@ import youthhalo.bountifulamethyst.util.EnchantingUtils;
 @Mixin(EnchantmentScreenHandler.class)
 public class EnchantmentScreenHandlerMixin {
 
-    @Inject(method = "getPower(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)I", at = @At("HEAD"), cancellable = true)
-    private static void getEnhancedPower(World world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-        // Check if this is our enhanced enchanting table
-        if (world.getBlockState(pos).getBlock() instanceof EnhancedEnchantingTableBlock) {
-            int enhancedPower = EnchantingUtils.getEnhancedPower(world, pos);
-            cir.setReturnValue(enhancedPower);
-        }
-    }
+	@Inject(method = "getPower(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)I", at = @At("HEAD"), cancellable = true)
+	private static void getEnhancedPower(World world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+		// Check if this is our enhanced enchanting table
+		if (world.getBlockState(pos).getBlock() instanceof EnhancedEnchantingTableBlock) {
+			int enhancedPower = EnchantingUtils.getEnhancedPower(world, pos);
+			cir.setReturnValue(enhancedPower);
+		}
+	}
 }

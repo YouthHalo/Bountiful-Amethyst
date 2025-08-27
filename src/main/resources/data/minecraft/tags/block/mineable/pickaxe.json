@@ -1,4 +1,7 @@
 {
 	"replace": false,
-	"values": ["bountiful-amethyst:enhanced_enchanting_table"]
+	"values": [
+		"bountiful-amethyst:enhanced_enchanting_table",
+		"bountiful-amethyst:depleted_amethyst_block"
+	]
 }

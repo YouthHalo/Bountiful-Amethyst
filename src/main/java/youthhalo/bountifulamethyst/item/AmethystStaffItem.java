@@ -134,6 +134,13 @@ public class AmethystStaffItem extends Item {
 		fireball.setVelocity(lookDirection.multiply(2.0));
 
 		world.spawnEntity(fireball);
+		
+		// Play fireball sound effect
+		world.playSound(null, user.getX(), user.getY(), user.getZ(),
+				net.minecraft.sound.SoundEvents.ENTITY_GHAST_SHOOT,
+				net.minecraft.sound.SoundCategory.PLAYERS,
+				0.8F, 0.8F);
+		
 		// Set cooldown for 2 seconds (40 ticks)
 		user.getItemCooldownManager().set(itemStack, 40);
 

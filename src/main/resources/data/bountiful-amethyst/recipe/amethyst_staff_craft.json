@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+			"#A#",
+			" c ",
+			" c "
+	],
+	"key": {
+			"#": "minecraft:dragon_breath",
+			"A": "minecraft:amethyst_shard",
+			"c": "minecraft:copper_ingot"
+	},
+	"result": {
+		"id": "bountiful-amethyst:amethyst_staff"
+	}
+}

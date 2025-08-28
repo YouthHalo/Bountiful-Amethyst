@@ -73,7 +73,7 @@ public class EnchantingUtils {
 
 	/**
 	 * Calculates the reveal cost for enchantment options
-	 * Base costs are 5, 10, 15 XP, reduced by amethyst blocks underneath
+	 * Base costs are reduced by enchanting power (bookshelves) and amethyst blocks
 	 * 
 	 * @param world The world
 	 * @param pos   The position of the enchanting table
@@ -81,15 +81,31 @@ public class EnchantingUtils {
 	 * @return XP cost for revealing this tier
 	 */
 	public static int getRevealCost(World world, BlockPos pos, int tier) {
-		int baseCost = tier * 5; // 5, 10, 15 XP for tiers 1, 2, 3
+		// Get enchanting power (0-15 based on bookshelves)
+		int enchantingPower = getEnhancedPower(world, pos);
+		
+		// Base costs: higher power = lower cost
+		int baseCost = switch (tier) {
+			case 1 -> 5;  // Reveal cost - fixed at 5 levels
+			case 2 -> 15 - enchantingPower;  // Level 2 enchant: 15 (power=0) to 0 (power=15), min 3
+			case 3 -> 30 - enchantingPower * 2; // Level 3 enchant: 30 (power=0) to 0 (power=15), min 7
+			default -> 1;
+		};
+		
+		// Apply minimum costs
+		baseCost = switch (tier) {
+			case 2 -> Math.max(3, baseCost);
+			case 3 -> Math.max(7, baseCost);
+			default -> Math.max(1, baseCost);
+		};
+		
+		// Apply amethyst block bonus reduction
 		int amethystBlocks = getAmethystBlockCount(world, pos);
-
-		// Each amethyst block reduces cost by 1 XP, minimum cost of 1
-		int reduction = amethystBlocks;
-		return Math.max(1, baseCost - reduction);
-	}
-
-	/**
+		int amethystReduction = amethystBlocks; // 0-9 reduction
+		
+		// Final cost with minimum of 1
+		return Math.max(1, baseCost - amethystReduction);
+	}	/**
 	 * Calculates the effective bookshelf power needed for enchanting
 	 * Enhanced enchanting tables need half as many books for the same enchantment
 	 * strength

@@ -30,7 +30,7 @@ public class EnhancedEnchantingTableBlockEntity extends BlockEntity
 
 	@Override
 	public Text getDisplayName() {
-		return Text.translatable("container.enhanced_enchanting_table");
+		return Text.literal("Enchant");
 	}
 
 	@Override

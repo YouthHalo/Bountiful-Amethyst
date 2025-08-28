@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+			"#A#",
+			" E "
+	],
+	"key": {
+			"#": "minecraft:purple_carpet",
+			"A": "minecraft:amethyst_shard",
+			"E": "minecraft:enchanting_table"
+	},
+	"result": {
+		"id": "bountiful-amethyst:enhanced_enchanting_table"
+	}
+}

@@ -13,6 +13,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import youthhalo.bountifulamethyst.BountifulAmethyst;
 import youthhalo.bountifulamethyst.item.ModItems;
 
@@ -24,7 +25,11 @@ public class ModBlocks {
 					.strength(7.5f, 1200.0f) // Increased hardness by 50% (from 5.0 to 7.5), same resistance
 					.sounds(BlockSoundGroup.STONE) // mining sound
 					.requiresTool(), // Requires a tool to break efficiently
-			true);
+			false); // Don't auto-register BlockItem, we'll do it manually with rare rarity
+
+	// Custom BlockItem registration for enhanced enchanting table with rare rarity
+	public static final Item ENHANCED_ENCHANTING_TABLE_ITEM = registerBlockItem("enhanced_enchanting_table",
+			ENHANCED_ENCHANTING_TABLE, Rarity.RARE);
 
 	public static final Block DEPLETED_AMETHYST_BLOCK = register("depleted_amethyst_block",
 			settings -> new Block(settings),
@@ -39,7 +44,7 @@ public class ModBlocks {
 
 		// Add blocks to the custom item group
 		ItemGroupEvents.modifyEntriesEvent(ModItems.BOUNTIFUL_AMETHYST_GROUP_KEY).register(entries -> {
-			entries.add(ENHANCED_ENCHANTING_TABLE);
+			entries.add(ENHANCED_ENCHANTING_TABLE_ITEM);
 			entries.add(DEPLETED_AMETHYST_BLOCK);
 
 		});
@@ -66,6 +71,12 @@ public class ModBlocks {
 		}
 
 		return Registry.register(Registries.BLOCK, blockKey, block);
+	}
+
+	private static Item registerBlockItem(String name, Block block, Rarity rarity) {
+		RegistryKey<Item> itemKey = keyOfItem(name);
+		BlockItem blockItem = new BlockItem(block, new Item.Settings().rarity(rarity).registryKey(itemKey));
+		return Registry.register(Registries.ITEM, itemKey, blockItem);
 	}
 
 	private static RegistryKey<Block> keyOfBlock(String name) {

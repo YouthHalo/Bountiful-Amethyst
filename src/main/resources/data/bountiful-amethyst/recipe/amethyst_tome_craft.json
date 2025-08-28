@@ -1,15 +1,16 @@
 ﻿{
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " A ",
-    "ABA",
-    " A "
-  ],
-  "key": {
-    "A": "minecraft:amethyst_shard",
-    "B": "minecraft:writable_book"
-  },
-  "result": {
-    "id": "bountiful-amethyst:amethyst_tome"
-  }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"###",
+		"AWA",
+		"###"
+	],
+	"key": {
+		"#": "minecraft:amethyst_shard",
+		"A": "minecraft:amethyst_block",
+		"W": "minecraft:writable_book"
+	},
+	"result": {
+		"id": "bountiful-amethyst:amethyst_tome"
+	}
 }

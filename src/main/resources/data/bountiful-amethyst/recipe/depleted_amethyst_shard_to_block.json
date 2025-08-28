@@ -5,9 +5,8 @@
     "A": "bountiful-amethyst:depleted_amethyst_shard"
   },
   "pattern": [
-    "AAA",
-    "AAA",
-    "AAA"
+    "AA",
+    "AA"
   ],
   "result": {
     "count": 1,

@@ -11,7 +11,7 @@
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/YouthHalo/Bountiful-Amethyst"
 	},
-	"license": "CC0-1.0",
+	"license": "GNU GPL v3",
 	"icon": "assets/bountiful-amethyst/icon.png",
 	"environment": "*",
 	"entrypoints": {
